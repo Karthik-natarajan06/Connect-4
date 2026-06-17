@@ -21,7 +21,7 @@ class Board:
                 return row  # return where it landed
             
         #column fail
-        return False
+        return None
     
     def check_win(self, player):
         # Horizontal
@@ -58,9 +58,10 @@ class Board:
         return True
     
     def display(self):
-        symbols = {0: "[]", 1: "X", 2: "O"}
+        symbols = {0: "[ ]", 1: " X ", 2: " O "}
 
         for row in self.grid:
             print(" ".join(symbols[cell] for cell in row))
 
-        print("0 1 2 3 4 5 6")
+        header = " ".join(f" {i} " for i in range(self.COLS))
+        print(header)
