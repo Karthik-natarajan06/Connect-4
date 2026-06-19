@@ -46,7 +46,7 @@ def score_window(window, player, opponent):
 
     score = 0
     if player_count == 3 and empty_count == 1:
-        score += 50      # AI is one move from winning here
+        score += 50      # player is one move from winning here
     elif player_count == 2 and empty_count == 2:
         score += 10      # building toward something
 
