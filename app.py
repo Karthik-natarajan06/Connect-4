@@ -36,5 +36,11 @@ def move():
 
     return jsonify({"board": board.grid, "status": "ongoing"})
 
+@app.route("/reset", methods=["POST"])
+def reset():
+    global board
+    board = Board()
+    return jsonify({"board": board.grid, "status": "ongoing"})
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -2,11 +2,113 @@
 <html>
 <head>
     <title>Connect-4</title>
+    <style>
+        #columns, #board {
+            display: grid;
+            grid-template-columns: repeat(7, 60px);
+            gap: 5px;
+            width: fit-content;
+        }
+        #columns {
+            margin-bottom: 5px;
+        }
+        #columns button {
+            width: 60px;
+            height: 40px;
+        }
+        #board {
+            background-color: darkblue;
+            padding: 10px;
+        }
+        .cell {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: white;
+        }
+        .cell.player1 { background-color: red; }
+        .cell.player2 { background-color: yellow; }
+    </style>
 </head>
 <body>
     <h1>Connect-4</h1>
-    <div id="board">
-        <!-- board cells will go here -->
+
+    <button onclick="resetGame()">New Game</button>
+
+    <div id="columns">
+        <button onclick="makeMove(0)">0</button>
+        <button onclick="makeMove(1)">1</button>
+        <button onclick="makeMove(2)">2</button>
+        <button onclick="makeMove(3)">3</button>
+        <button onclick="makeMove(4)">4</button>
+        <button onclick="makeMove(5)">5</button>
+        <button onclick="makeMove(6)">6</button>
     </div>
+
+    <div id="board"></div>
+    <p id="status"></p>
+
+    <script>
+        function renderBoard(board) {
+            const boardDiv = document.getElementById("board");
+            boardDiv.innerHTML = "";
+            for (let row = 0; row < board.length; row++) {
+                for (let col = 0; col < board[row].length; col++) {
+                    const cell = document.createElement("div");
+                    cell.classList.add("cell");
+                    if (board[row][col] === 1) {
+                        cell.classList.add("player1");
+                    } else if (board[row][col] === 2) {
+                        cell.classList.add("player2");
+                    }
+                    boardDiv.appendChild(cell);
+                }
+            }
+        }
+
+        function makeMove(column) {
+            fetch("/move", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ column: column })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById("status").innerText = data.error;
+                    return;
+                }
+                renderBoard(data.board);
+                if (data.status === "human_won") {
+                    document.getElementById("status").innerText = "You won!";
+                } else if (data.status === "ai_won") {
+                    document.getElementById("status").innerText = "AI won!";
+                } else if (data.status === "draw") {
+                    document.getElementById("status").innerText = "It's a draw!";
+                } else {
+                    document.getElementById("status").innerText = "Your turn";
+                }
+            });
+        }
+
+        function resetGame() {
+            fetch("/reset", { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    renderBoard(data.board);
+                    document.getElementById("status").innerText = "";
+                });
+}
+
+        renderBoard([
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0]
+        ]);
+    </script>
 </body>
 </html>
+
