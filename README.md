@@ -5,7 +5,7 @@ A Connect-4 engine with an AI opponent using minimax and alpha-beta pruning, plu
 This project implements a complete Connect-4 game with an AI opponent built from classical search algorithms rather than a pre-trained model or external API. The core engine handles board state, legal move generation, and win/draw detection, while the AI uses minimax search with alpha-beta pruning and move ordering to choose strong moves efficiently. A web interface lets a human play against the AI at adjustable difficulty.
 
 ## Demo
-![Connect-4 gameplay](screenshots/Connect-4 Demo.png)
+![Connect-4 gameplay](screenshots/demo.png)
 
 ## Features
 - [x] Full Connect-4 rules engine (move validation, win/draw detection)
