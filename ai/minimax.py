@@ -4,7 +4,10 @@ import copy
 
 def get_valid_columns(board):
     COLS = Board.COLS
-    return [c for c in range(COLS) if board.grid[0][c] == 0]
+    valid = [c for c in range(COLS) if board.grid[0][c] == 0]
+    centre = COLS//2
+    return sorted(valid, key=lambda c: abs(c-centre))
+
 
 def clone_board(board):
     new_board = Board()
