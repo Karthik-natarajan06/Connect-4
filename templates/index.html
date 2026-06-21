@@ -45,6 +45,13 @@
         <button onclick="makeMove(6)">6</button>
     </div>
 
+    <label for="difficulty">Difficulty:</label>
+    <select id="difficulty">
+        <option value="2">Easy</option>
+        <option value="4" selected>Medium</option>
+        <option value="6">Hard</option>
+    </select>
+
     <div id="board"></div>
     <p id="status"></p>
 
@@ -67,10 +74,11 @@
         }
 
         function makeMove(column) {
+            const depth = parseInt(document.getElementById("difficulty").value);
             fetch("/move", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ column: column })
+                body: JSON.stringify({ column: column, depth: depth })
             })
             .then(response => response.json())
             .then(data => {
